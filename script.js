@@ -1,15 +1,17 @@
 const table = document.getElementById("data");
 
-fetch("https://jsonplaceholder.typicode.com/users")
-  .then((res) => res.json())
-  .then((res) => {
-    table.innerHTML = render(res);
-  });
+function fetchData(callback) {
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then((res) => res.json())
+    .then((res) => {
+      callback(res);
+    });
+}
 
 function render(result) {
-  let table = "";
+  let tableHTML = "";
   result.forEach((data) => {
-    table += `<tr>
+    tableHTML += `<tr>
                 <td>${data.id}</td>
                 <td>${data.name}</td>
                 <td>${data.username}</td>
@@ -24,5 +26,9 @@ function render(result) {
                 <td>${data.website}</td>
               </tr>`;
   });
-  return table;
+  return tableHTML;
 }
+
+fetchData(function (result) {
+  table.innerHTML = render(result);
+});
